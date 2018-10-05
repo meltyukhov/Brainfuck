@@ -5,38 +5,38 @@ class BrainFuck {
     static final int maxVal = 256;
     static char[] arr;
     static int index;
-    private static String[] str;
+    private static String str;
     static int i;
     static ArrayList<Command> commands;
 
     static void run(String line) {
         commands = new ArrayList<>();
-        str = line.split("");
+        str = line;
         arr = new char[memorySize];
         index = 0;
 
         if (!checkBrackets()) return;
-        for(String command : str) {
-            switch (command) {
-                case ">":
+        for(int j = 0; j < str.length(); j++) {
+            switch (str.charAt(j)) {
+                case '>':
                     commands.add(new RightCommand());
                     break;
-                case "<":
+                case '<':
                     commands.add(new LeftCommand());
                     break;
-                case "+":
+                case '+':
                     commands.add(new PlusCommand());
                     break;
-                case "-":
+                case '-':
                     commands.add(new MinusCommand());
                     break;
-                case ".":
+                case '.':
                     commands.add(new DotCommand());
                     break;
-                case "[":
+                case '[':
                     commands.add(new OBCommand());
                     break;
-                case "]":
+                case ']':
                     commands.add(new CBCommand());
                     break;
             }
@@ -47,6 +47,23 @@ class BrainFuck {
     }
 
     private static boolean checkBrackets() {
-        return true;
+        int ob = 0, cb = 0;
+        for(int j = 0; j < str.length(); j++) {
+            if (str.charAt(j) == '[')
+                ob++;
+            else if (str.charAt(j) == ']') {
+                cb++;
+                if (cb > ob) {
+                    System.out.println("Missing opening bracket!");
+                    return false;
+                }
+            }
+        }
+        if (ob > cb) {
+            System.out.println("Missing closing brackets!");
+            return false;
+        }
+        else
+            return true;
     }
 }
