@@ -17,33 +17,24 @@ class BrainFuck {
 
         if (!checkBrackets()) return;
         for(int j = 0; j < str.length(); j++) {
-            switch (str.charAt(j)) {
-                case '>':
-                    commands.add(new RightCommand());
-                    break;
-                case '<':
-                    commands.add(new LeftCommand());
-                    break;
-                case '+':
-                    commands.add(new PlusCommand());
-                    break;
-                case '-':
-                    commands.add(new MinusCommand());
-                    break;
-                case '.':
-                    commands.add(new DotCommand());
-                    break;
-                case '[':
-                    commands.add(new OBCommand());
-                    break;
-                case ']':
-                    commands.add(new CBCommand());
-                    break;
-            }
+            if (str.charAt(j) == '>')
+                commands.add(new IncPointer());
+            else if (str.charAt(j) == '<')
+                commands.add(new DecPointer());
+            else if (str.charAt(j) == '+')
+                commands.add(new IncValue());
+            else if (str.charAt(j) == '-')
+                commands.add(new DecValue());
+            else if (str.charAt(j) == '.')
+                commands.add(new Output());
+            else if (str.charAt(j) == '[')
+                commands.add(new LoopBegin());
+            else if (str.charAt(j) == ']')
+                commands.add(new LoopEnd());
         }
 
         for(i = 0; i < commands.size(); i++)
-            commands.get(i).Execute();
+            commands.get(i).execute();
     }
 
     private static boolean checkBrackets() {

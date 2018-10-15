@@ -1,3 +1,4 @@
 public interface Command {
-    void Execute();
+    void execute();
+    char character();
 }
